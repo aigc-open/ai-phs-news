@@ -1,3 +1,4 @@
+from datetime import datetime
 from duckduckgo_search import DDGS
 from pydantic import BaseModel
 from .config import global_config
@@ -125,23 +126,23 @@ class Spider(LLMClient):
         google_slice = google_news[:5] if google_news else google_news
 
         results = []
-        if papers_slice:
-            results += papers_slice
-        if models_slice:
-            results += models_slice
+        
+        
         if aibot_slice:
             results += aibot_slice
         if duck_slice:
             results += duck_slice
         if google_slice:
             results += google_slice
+        if models_slice:
+            results += models_slice
+        if papers_slice:
+            results += papers_slice
 
         # Section slices based on the actual available data
         sections = []
 
-        paper_items = [Result(title=result.title, url=result.url, text=result.text) for result in papers_slice] if papers_slice else []
-        if paper_items:
-            sections.append(ResultSection(title="论文", items=paper_items))
+        
 
         model_items = [Result(title=result.title, url=result.url, text=result.text) for result in models_slice] if models_slice else []
         if model_items:
@@ -157,9 +158,13 @@ class Spider(LLMClient):
             news_items += [Result(title=result.title, url=result.url, text=result.text) for result in google_slice]
         if news_items:
             sections.append(ResultSection(title="新闻", items=news_items))
-
+            
+        paper_items = [Result(title=result.title, url=result.url, text=result.text) for result in papers_slice] if papers_slice else []
+        if paper_items:
+            sections.append(ResultSection(title="论文", items=paper_items))
+            
         return ResultContent(
-            title="每日AI资讯精华",
+            title=f"每日AI资讯快报",
             warm_words=self.generate_warm_words(),
             sections=sections
         )

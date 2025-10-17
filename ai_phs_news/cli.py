@@ -5,6 +5,7 @@ AI PHS News 命令行工具
 整合资讯爬取、文章生成和微信发布功能
 """
 
+from datetime import datetime
 import fire
 from loguru import logger
 from .spider import Spider
@@ -264,7 +265,7 @@ class WorkflowCLI:
         self.spider = Spider()
         self.publisher = None
     
-    def daily(self, title="每日AI资讯精华", author="AI小助手", 
+    def daily(self, title="每日AI资讯快报", author="PH小灵通", 
              publish_wechat=False, publish_wxwork=False):
         """
         每日资讯完整工作流：爬取资讯 -> AI生成文章 -> 发布到微信公众号或企业微信
@@ -283,6 +284,9 @@ class WorkflowCLI:
         logger.info("爬取资讯...")
         content_data = self.spider.make_spider_content()
         
+        now = datetime.now().strftime("%Y-%m-%d")
+        title = f"每日AI资讯快报 {now}"
+        
         if publish_wechat:
             self.publisher = WeChatArticlePublisher()
             content = content_data.create_wechat_article_content()
@@ -291,8 +295,6 @@ class WorkflowCLI:
             self.publisher = WxworkArticlePublisher()
             content = content_data.create_wxwork_article_content()
             self.publisher.publish(content=content, title=title, author=author)
-        else:
-            raise ValueError(f"不支持的发布平台: {publish_wechat} 和 {publish_wxwork}")
 
 
     def schdule_daily(self, publish_wechat=False, publish_wxwork=False):
