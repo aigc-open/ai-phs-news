@@ -28,37 +28,38 @@ class ResultContent(BaseModel):
         
         
         html = f"""
-        <section style="padding: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; margin-bottom: 15px;">
-            <h1 style="text-align: left; color: #ffffff; font-size: 24px; font-weight: bold; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">
-                ✨ {self.title} ✨
-            </h1>
+        <section style="padding: 16px 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; margin-bottom: 16px; box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);">
+            <h1 style="text-align: left; color: #ffffff; font-size: 22px; font-weight: bold; margin: 0; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); letter-spacing: 0.5px;">✨ {self.title}</h1>
         </section>
         """
         for section in self.sections:
             html += f"""
-            <section style="margin: 15px 0; padding: 0; background: linear-gradient(to right, #ffffff 0%, #f8f9ff 100%); border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-left: 4px solid #667eea;">
-                <h2 style="color: #667eea; font-size: 18px; font-weight: bold; margin: 0 0 10px 0; padding: 0; border-bottom: 2px solid #e8ebff;">
-                    📌 {section.title}
-                </h2>
-                <ul style="margin: 0; padding: 0; list-style-type: none;">
+            <section style="margin: 16px 0; padding: 14px 0px; background: #ffffff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 4px solid #667eea;">
+                <h2 style="color: #667eea; font-size: 17px; font-weight: bold; margin: 0 0 12px 0; padding-bottom: 8px; border-bottom: 1px solid #e8ebff;">{section.title}</h2>
+                <div>
             """
             for item in section.items:
-                html += f'''<li style="margin: 12px 0; padding: 0; color: #2c3e50; line-height: 1.6;">
-                    <div style="margin-bottom: 4px;">
-                        <a href="{item.url}" target="_blank" style="color: #5a67d8; text-decoration: none; font-weight: 500;">▸ {item.text}</a>
-                    </div>
-                    <div style="font-size: 12px; color: #999; word-break: break-all; padding-left: 12px; line-height: 1.4;">
-                        🔗 {item.url}
-                    </div>
-                </li>'''
+                if "https://mp.weixin.qq.com" in item.url:
+                    html += f'''<div style="margin: 0 0 14px 0; padding: 0; color: #2c3e50; line-height: 1.5;">
+                        <div style="margin-bottom: 5px; line-height: 1.6;">
+                            <a href="{item.url}" target="_blank" style="color: #5a67d8; text-decoration: none; font-weight: 500; font-size: 15px;">👉 {item.text}</a>
+                        </div>
+                    </div>'''
+                else:
+                    html += f'''<div style="margin: 0 0 14px 0; padding: 0; color: #2c3e50; line-height: 1.5;">
+                        <div style="margin-bottom: 5px; line-height: 1.6;">
+                            <span style="color: #5a67d8; text-decoration: none; font-weight: 500; font-size: 15px;">👉 {item.text}</span>
+                        </div>
+                        <div style="font-size: 11px; color: #aaa; word-break: break-all; line-height: 1.4; background: #f7f9fc; padding: 6px 8px; border-radius: 4px; margin-top: 4px;">{item.url}</div>
+                    </div>'''
             html += f"""
-                </ul>
+                </div>
             </section>
             """
         html += f"""
-        <section style="margin-top: 15px; padding: 0; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 8px; text-align: left; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
-            <h1 style="color: #ffffff; font-size: 20px; font-weight: 600; margin: 0; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); line-height: 1.6;">
-                💖 {self.warm_words} 💖
+        <section style="margin-top: 16px; padding: 16px 12px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 10px; text-align: left; box-shadow: 0 3px 10px rgba(240, 147, 251, 0.3);">
+            <h1 style="color: #ffffff; font-size: 18px; font-weight: 600; margin: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); line-height: 1.6;">
+                {self.warm_words}
             </h1>
         </section>
         """
