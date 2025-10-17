@@ -284,8 +284,6 @@ class WorkflowCLI:
         logger.info("爬取资讯...")
         content_data = self.spider.make_spider_content()
         
-        now = datetime.now().strftime("%Y-%m-%d")
-        title = f"每日AI资讯快报 {now}"
         
         if publish_wechat:
             self.publisher = WeChatArticlePublisher()
@@ -303,7 +301,9 @@ class WorkflowCLI:
         """
         import schedule
         import time
-        schedule.every().day.at("09:00").do(self.daily, publish_wechat=publish_wechat, publish_wxwork=publish_wxwork)
+        now = datetime.now().strftime("%Y-%m-%d")
+        title = f"PH小灵通AI资讯快报 {now}"
+        schedule.every().day.at("09:00").do(self.daily, title=title, publish_wechat=publish_wechat, publish_wxwork=publish_wxwork)
         while True:
             schedule.run_pending()
             time.sleep(1)
