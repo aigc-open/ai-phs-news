@@ -43,8 +43,13 @@ class ResultContent(BaseModel):
                 <ul style="margin: 0; padding: 0; list-style-type: none;">
             """
             for item in section.items:
-                html += f'''<li style="margin: 8px 0; padding: 0 -5px; color: #2c3e50; line-height: 1.8;">
-                    <a href="{item.url}" target="_blank" style="color: #5a67d8; text-decoration: none; font-weight: 500; transition: all 0.3s ease; border-bottom: 2px solid transparent;">▸ {item.text}</a>
+                html += f'''<li style="margin: 12px 0; padding: 0; color: #2c3e50; line-height: 1.6;">
+                    <div style="margin-bottom: 4px;">
+                        <a href="{item.url}" target="_blank" style="color: #5a67d8; text-decoration: none; font-weight: 500;">▸ {item.text}</a>
+                    </div>
+                    <div style="font-size: 12px; color: #999; word-break: break-all; padding-left: 12px; line-height: 1.4;">
+                        🔗 {item.url}
+                    </div>
                 </li>'''
             html += f"""
                 </ul>
