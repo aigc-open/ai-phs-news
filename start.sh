@@ -1,0 +1,1 @@
+nohup python -m ai_phs_news workflow schdule_daily --publish_wechat true &
