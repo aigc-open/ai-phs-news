@@ -265,7 +265,7 @@ class WorkflowCLI:
         self.spider = Spider()
         self.publisher = None
     
-    def daily(self, title="每日AI资讯快报", author="PH小灵通", 
+    def daily(self, title="PH小灵通AI资讯快报", author="PH小灵通", 
              publish_wechat=False, publish_wxwork=False):
         """
         每日资讯完整工作流：爬取资讯 -> AI生成文章 -> 发布到微信公众号或企业微信
@@ -276,6 +276,8 @@ class WorkflowCLI:
             publish_wechat: 是否发布到微信公众号
             publish_wxwork: 是否发布到企业微信
         """
+        now = datetime.now().strftime("%Y-%m-%d")
+        title = f"{title} {now}"
         
         logger.info("="*60)
         logger.info("开始执行每日资讯工作流")
@@ -301,9 +303,8 @@ class WorkflowCLI:
         """
         import schedule
         import time
-        now = datetime.now().strftime("%Y-%m-%d")
-        title = f"PH小灵通AI资讯快报 {now}"
-        schedule.every().day.at("09:00").do(self.daily, title=title, publish_wechat=publish_wechat, publish_wxwork=publish_wxwork)
+        
+        schedule.every().day.at("09:00").do(self.daily, publish_wechat=publish_wechat, publish_wxwork=publish_wxwork)
         while True:
             schedule.run_pending()
             time.sleep(1)
