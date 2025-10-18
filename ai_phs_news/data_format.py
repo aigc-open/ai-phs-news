@@ -35,14 +35,18 @@ class ResultContent(BaseModel):
         for section in self.sections:
             html += f"""
             <section style="margin: 16px 0; padding: 14px 0px; background: #ffffff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 4px solid #667eea;">
-                <h2 style="color: #667eea; font-size: 17px; font-weight: bold; margin: 0 0 12px 0; padding-bottom: 8px; border-bottom: 1px solid #e8ebff;">{section.title}</h2>
+                <h2 style="color: #667eea; font-size: 17px; font-weight: bold; margin: 0 0 12px 0; padding-bottom: 8px; border-bottom: 1px solid #e8ebff;">
+                    {section.title}
+                </h2>
                 <div>
             """
             for item in section.items:
                 if "https://mp.weixin.qq.com" in item.url:
                     html += f'''<div style="margin: 0 0 14px 0; padding: 0; color: #2c3e50; line-height: 1.5;">
                         <div style="margin-bottom: 5px; line-height: 1.6;">
-                            <a href="{item.url}" target="_blank" style="color: #5a67d8; text-decoration: none; font-weight: 500; font-size: 15px;">👉 {item.text}</a>
+                            <a href="{item.url}" target="_blank" style="color: #5a67d8; text-decoration: none; font-weight: 500; font-size: 15px;">
+                                👉 {item.text}
+                            </a>
                         </div>
                     </div>'''
                 else:
@@ -63,6 +67,8 @@ class ResultContent(BaseModel):
             </h1>
         </section>
         """
+        # 移除HTML中的换行符和多余空格，避免产生&nbsp;
+        html = ''.join(line.strip() for line in html.split('\n') if line.strip())
         return html
 
     @staticmethod
