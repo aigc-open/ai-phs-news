@@ -304,7 +304,7 @@ class WorkflowCLI:
         import schedule
         import time
         
-        schedule.every().day.at("09:00").do(self.daily, publish_wechat=publish_wechat, publish_wxwork=publish_wxwork)
+        schedule.every().day.at("08:00").do(self.daily, publish_wechat=publish_wechat, publish_wxwork=publish_wxwork)
         while True:
             schedule.run_pending()
             time.sleep(1)
