@@ -142,12 +142,6 @@ class Spider(LLMClient):
         # Section slices based on the actual available data
         sections = []
 
-        
-
-        model_items = [Result(title=result.title, url=result.url, text=result.text) for result in models_slice] if models_slice else []
-        if model_items:
-            sections.append(ResultSection(title="模型", items=model_items))
-
         # 新闻项，包括 aibot, duckduckgo, google 三个来源合并
         news_items = []
         if aibot_slice:
@@ -158,6 +152,10 @@ class Spider(LLMClient):
             news_items += [Result(title=result.title, url=result.url, text=result.text) for result in google_slice]
         if news_items:
             sections.append(ResultSection(title="新闻", items=news_items))
+            
+        model_items = [Result(title=result.title, url=result.url, text=result.text) for result in models_slice] if models_slice else []
+        if model_items:
+            sections.append(ResultSection(title="模型", items=model_items))
             
         paper_items = [Result(title=result.title, url=result.url, text=result.text) for result in papers_slice] if papers_slice else []
         if paper_items:
